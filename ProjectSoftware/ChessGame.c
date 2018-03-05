@@ -14,11 +14,8 @@ int packSquare(int* square){
 }
 
 void unpackSquare(int index, int upSquare[]){
-	printf("%d\n", upSquare[0]);
-	upSquare[0] = index - index%10;
+	upSquare[0] = index/10;
 	upSquare[1] = index%10;
-//	*upSquare = index - index%10;
-//	*(upSquare + 1) = index%10;
 }
 
 ChessPiece* createChessPiece(PieceType type, int color, int square){
@@ -108,6 +105,7 @@ ChessPiece* copyChessPiece(ChessPiece* src){
 	ChessPiece* new_piece = (ChessPiece*) calloc(1, sizeof(ChessPiece));
 	if (new_piece == NULL){
 		//ToDo: error
+		return NULL;
 	}
 
 	//copy values
@@ -120,10 +118,9 @@ ChessPiece* copyChessPiece(ChessPiece* src){
 }
 
 CGMessage setPiecesFromList(ChessPiece* white[16], ChessPiece* black[16], ChessGame* game){
-	ChessPiece* list[16];
-	list = &white[0];
+	ChessPiece** list = white;
 	for (int i=0; i<2; i++){					//for each of the lists
-		for (int j=0; j<2*BOARD_SIZE; j++){		//for each index in the list
+		for (int j=0; j<16; j++){		//for each index in the list
 			if (list[j] != NULL){				//(if not empty)
 				//create chess piece
 				ChessPiece* p = copyChessPiece(list[j]);
@@ -133,7 +130,7 @@ CGMessage setPiecesFromList(ChessPiece* white[16], ChessPiece* black[16], ChessG
 				}
 
 				//update on board and add to list in game
-				int sup[] = {0};
+				int sup[2] = {0};
 				unpackSquare(p->square, sup);
 				game->board[sup[0]][sup[1]] = p;
 				if (i == 0){
@@ -171,8 +168,9 @@ void printBoard(ChessGame* src){
 		line[1] = '|';
 		line[2] = ' ';
 		//fill line of board
+		ChessPiece* p;
 		for (int j=0; j<8; j++){
-			ChessPiece* p = src->board[i-1][j];
+			p = src->board[i-1][j];
 			int index = 2*j+3;
 			line[index] = (p == NULL) ? '_' : p->name;
 			line[index+1] = ' ';
