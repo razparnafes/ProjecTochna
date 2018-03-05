@@ -20,6 +20,7 @@
 
 typedef enum game_rules_message_t {
 	GR_SUCCESS,
+	GR_FAIL,
 	GR_INVALID_INPUT,
 	GR_EMPTY_SQUARE,
 	GR_ILLEGAL_MOVE,
@@ -30,7 +31,13 @@ typedef enum game_rules_message_t {
 
 //----------------------------------------
 
-//ToDo initGamePieces
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
 
 /**
  * checks if a given move is a capture
