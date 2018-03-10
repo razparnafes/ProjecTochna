@@ -1,7 +1,6 @@
 //
 #include "GameRules.h"
-//
-//
+
 ////-----------isLegalMove functions--------------
 ///**
 // * the following functions check if a specific move is a legal chess move for each piece.
@@ -65,12 +64,12 @@
 // * bool - true iff the move specified is legal
 // */
 //
-//GAUXMessage getMovesPawn(int square, SPArrayList* list, ChessGame* game);
-//GAUXMessage getMovesBishop(int square, SPArrayList* list, ChessGame* game);
-//GAUXMessage getMovesRook(int square, SPArrayList* list, ChessGame* game);
-//GAUXMessage getMovesKnight(int square, SPArrayList* list, ChessGame* game);
-//GAUXMessage getMovesKing(int square, SPArrayList* list, ChessGame* game);
-//GAUXMessage getMovesQueen(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesPawn(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesBishop(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesRook(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesKnight(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesKing(int square, SPArrayList* list, ChessGame* game);
+//GRMessage getMovesQueen(int square, SPArrayList* list, ChessGame* game);
 //
 ////-----------------------------------------------
 //
@@ -86,3 +85,50 @@
 //	}
 //	return false;
 //}
+
+
+//____________________________________________________________________
+GRMessage initGamePieces(ChessGame* game){
+	ChessPiece* white[16];
+	ChessPiece* black[16];
+
+	//royalty
+	white[0] = createChessPiece(QUEEN, WHITE, 3);
+	white[1] = createChessPiece(KING, WHITE, 4);
+	black[0] = createChessPiece(QUEEN, BLACK, 73);
+	black[1] = createChessPiece(KING, BLACK, 74);
+
+	//pawns
+	for (int i=0; i<BOARD_SIZE; i++){
+		white[i+2] = createChessPiece(PAWN, WHITE, 10+i);
+		black[i+2] = createChessPiece(PAWN, BLACK, 60+i);
+		//ToDo: errors?
+	}
+
+	//the rest
+	white[10] = createChessPiece(ROOK, WHITE, 0);
+	white[11] = createChessPiece(ROOK, WHITE, 7);
+	black[10] = createChessPiece(ROOK, BLACK, 70);
+	black[11] = createChessPiece(ROOK, BLACK, 77);
+	white[12] = createChessPiece(KNIGHT, WHITE, 1);
+	white[13] = createChessPiece(KNIGHT, WHITE, 6);
+	black[12] = createChessPiece(KNIGHT, BLACK, 71);
+	black[13] = createChessPiece(KNIGHT, BLACK, 76);
+	white[14] = createChessPiece(BISHOP, WHITE, 2);
+	white[15] = createChessPiece(BISHOP, WHITE, 5);
+	black[14] = createChessPiece(BISHOP, BLACK, 72);
+	black[15] = createChessPiece(BISHOP, BLACK, 75);
+
+	setPiecesFromList(white, black, game);
+	//Todo: errors?
+
+	for (int i=1; i<BOARD_SIZE; i++){
+		free(white[i]);
+		free(black[i]);
+	}
+
+	return GR_SUCCESS;
+}
+
+
+
