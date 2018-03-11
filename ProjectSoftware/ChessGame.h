@@ -1,9 +1,10 @@
 /*
  * ChessGame.h
  *
- * This module defines the ChessGame and ChessPiece structs and includes basic utilities
+ * This module defines the ChessGame, ChessPiece and Move structs and includes basic utilities
  * Functions included:
  * 		- getSquare
+ * 		- setSquare
  * 		- packSquare
  * 		- unpackSquare
  * 		- createChessPiece
@@ -13,6 +14,8 @@
  * 		- copyChessGame
  * 		- printBoard
  * 		- setPiecesFromList
+ * 		- doMove
+ * 		- undoMove
  */
 
 /**
@@ -24,7 +27,8 @@
  * White always starts at lower indexes
  * Board indexes are of the format r*10+c where r is the row and c the column
  * Moves are always a pair of indexes - two seperate ints (!) "to" and "from"
- * The history list contains two entries for every move (first to, then from).
+ * history contains 3 (!) ints for each move in the following order:
+ * capture, from, to. from and to are ints. capture is a pointer to a piece captures (or null)
  */
 
 #ifndef CHESSGAME_H_
@@ -40,6 +44,8 @@
 #define BOARD_SIZE 8
 #define WHITE 0
 #define BLACK 1
+#define HIST_SIZE 3
+#define NUM_PIECES 16;
 
 typedef enum piece_type_t {
 	PAWN,
@@ -56,6 +62,7 @@ typedef struct chess_piece_t {
 	int square;
 	PieceType type;
 	char name;
+	bool alive;
 } ChessPiece;
 
 
@@ -73,6 +80,7 @@ typedef struct chess_game_t {
 typedef enum chess_game_message_t {
 	CG_FAIL,
 	CG_SUCCESS,
+	CG_EMPTY,
 } CGMessage;
 
 //---------------------------------------------------------------------
@@ -152,5 +160,20 @@ ChessGame* copyChessGame(ChessGame* src);
  */
 void printBoard(ChessGame* src);
 
+/**
+ * does a move. assumes it's legal.
+ * includes moving the pieces, removing a piece if captured, and updating the history and cur player
+ * @param from, to - the squares of the move. assumes in range, and from square contains a piece.
+ * @param game - the game
+ * @return fail or success accordingly
+ */
+void doMove(int from, int to, ChessGame* game);
+
+/**
+ * undo's a move - pops from history list and reverts game to previous state.
+ * @param game - the game. assumes history list is good.
+ * @return - fail or success, or empty if no moves are in history list
+ */
+CGMessage undoMove(ChessGame* game);
 
 #endif /* CHESSGAME_H_ */

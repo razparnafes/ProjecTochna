@@ -4,9 +4,16 @@
 
 ChessPiece* getSquare(int index, ChessGame* game){
 	//Assumes 0=<r,c<8
-	int r = index - index%10;
+	int r = index/10;
 	int c = index%10;
 	return game->board[r][c];
+}
+
+void setSquare(int index, ChessPiece* p, ChessGame* game){
+	//Assumes 0=<r,c<8
+	int r = index/10;
+	int c = index%10;
+	game->board[r][c] = p;
 }
 
 int packSquare(int* square){
@@ -30,6 +37,7 @@ ChessPiece* createChessPiece(PieceType type, int color, int square){
 	p->color = color;
 	p->type = type;
 	p->square = square;
+	p->alive = true;
 
 	//init name (as lowercase, convert to uppercase at end)
 	switch(type){
@@ -77,7 +85,7 @@ ChessGame* createChessGame(int historySize){
 	memset(&new_game->black_p, 0, sizeof(new_game->black_p));
 	new_game->cur_player = WHITE;
 	new_game->check = false;
-	new_game->history = spArrayListCreate(historySize*4);	//ToDo: *2?*4?
+	new_game->history = spArrayListCreate(historySize*6);
 	if (new_game->history == NULL){
 		//ToDo: error
 	}
@@ -113,6 +121,7 @@ ChessPiece* copyChessPiece(ChessPiece* src){
 	new_piece->square = src->square;
 	new_piece->type = src->type;
 	new_piece->name = src->name;
+	new_piece->alive = src->alive;
 
 	return new_piece;
 }
@@ -121,7 +130,7 @@ CGMessage setPiecesFromList(ChessPiece* white[16], ChessPiece* black[16], ChessG
 	ChessPiece** list = white;
 	for (int i=0; i<2; i++){					//for each of the lists
 		for (int j=0; j<16; j++){		//for each index in the list
-			if (list[j] != NULL){				//(if not empty)
+			if (list[j]->alive){				//(if not empty)
 				//create chess piece
 				ChessPiece* p = copyChessPiece(list[j]);
 				if (p == NULL){
@@ -185,3 +194,65 @@ void printBoard(ChessGame* src){
 	printf("  -----------------\n");
 	printf("   A B C D E F G H\n");
 }
+
+
+void doMove(int from, int to, ChessGame* game){
+	//deal with captures
+	ChessPiece* c = getSquare(to, game);
+	if (c != NULL){					//if move is a capture...
+		c->alive = false;
+	}
+
+	//move piece in from to to (board and piece)
+	ChessPiece* p = getSquare(from, game);
+	setSquare(from, NULL, game);
+	setSquare(to, p, game);
+	p->square = to;
+
+	//update player
+	game->cur_player = game->cur_player^1;
+
+	//push to history
+	spArrayListAddFirst(game->history, (int) c);
+	spArrayListAddFirst(game->history, from);
+	spArrayListAddFirst(game->history, to);
+}
+
+CGMessage undoMove(ChessGame* game){
+	//check if history exists
+	if (spArrayListIsEmpty(game->history)){
+		return CG_EMPTY;
+	}
+
+	//pops to, from, captured piece from history
+	int to = spArrayListGetFirst(game->history);
+	spArrayListRemoveFirst(game->history);
+	int from = spArrayListGetFirst(game->history);
+	spArrayListRemoveFirst(game->history);
+	ChessPiece* c = (ChessPiece*) spArrayListGetFirst(game->history);
+	spArrayListRemoveFirst(game->history);
+
+	//moves piece from to to from, updates player
+	ChessPiece* p = getSquare(to, game);
+	setSquare(from, p, game);
+	p->square = from;
+	game->cur_player = game->cur_player^1;
+
+	//revives captures player
+	setSquare(to, c, game);
+	if (c != NULL){
+		c->alive = true;
+		c->square = to;
+	}
+
+	return CG_SUCCESS;
+}
+
+
+
+
+
+
+
+
+
