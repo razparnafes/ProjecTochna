@@ -8,7 +8,7 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 
-#define GAME_MAX_LINE_LENGTH 1024
+#define GAME_MAX_LINE_LENGTH 2048
 
 //a type used to represent a command
 typedef enum {
