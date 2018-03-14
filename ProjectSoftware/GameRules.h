@@ -31,6 +31,49 @@ typedef enum game_rules_message_t {
 
 //----------------------------------------
 
+
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
+/**
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
+ */
+GRMessage initGamePieces(ChessGame* game);
 /**
  * initiates the start of a chess game on a given empty game
  * white are always down
@@ -40,39 +83,37 @@ typedef enum game_rules_message_t {
 GRMessage initGamePieces(ChessGame* game);
 
 /**
- * checks if a given move is a capture
- * Assumes from contains a chess piece
- * @param to, from - the start and end of the move
- * @param game - the current game
- * @return true iff the move is a capture (assumes move exists)
+ * initiates the start of a chess game on a given empty game
+ * white are always down
+ * @param game - the game to initiate on
+ * @return - GR_FAIL or GR_SUCCESS (fail is a calloc fail in copy chess piece)
  */
-bool isCapture(int from, int to, ChessGame* game);
+GRMessage initGamePieces(ChessGame* game);
+
 
 
 /**
  * finds all legal moves from a specific square
- * legal - does not take king endangerment into account ??????????????????????????
+ * doesn't change game board, but may corrupt undo-moves list
  * @param square - square from which move starts
- * @param list - Pointer to arraylist in which to store moves
  * @param game - the current game
  * @return
- * GR_INVALID_INPUT if square is out of range
- * GR_EMPTY_SQUARE if no piece in square
- * GR_SUCCESS otherwise
+ * a pointer to an array list containing all legal moves from the given square
+ * NULL for no moves or illegal input
  */
-GRMessage getMoves(int square, SPArrayList* list, ChessGame* game);
+SPArrayList* getMoves(int square, ChessGame* game);
 
 /**
  * checks if given square is threatened by the opponents pieces
  * @param square - the square to check. May be empty, but assumes valid
- * @param player - the player who's piece will be in said square (assumes 0,1)
  * @param game - the current game
  * @return true iff square is threatened
  */
-bool isThreatened(int square, int player, ChessGame* game);
+bool isThreatened(int square, ChessGame* game);
 
 /*
  * checks if given move is legal (in all regards)
+ * doesn't change game board, but may corrupt undo-moves list
  * @param to, from - the start and end of the move
  * @param game - the current game
  * @return
