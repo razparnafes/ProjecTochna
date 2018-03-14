@@ -1,4 +1,3 @@
-//
 #include "GameRules.h"
 
 ////-----------isLegalMove functions--------------

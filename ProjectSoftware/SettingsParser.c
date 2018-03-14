@@ -1,7 +1,8 @@
-#include "SPFIARParser.h"
+#include "SettingsParser.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 
 

@@ -1,3 +1,5 @@
+#ifndef MINIMAX_H_
+#define MINIMAX_H_
 #include "MiniMaxAux.h"
 
 
@@ -13,4 +15,6 @@
  * the move in this form: (int from_square, int to_square) ***THE USER OF THIS FUNCTION MUST RELEASE THIS MOVE***. returns NULL 
  * if a memory allocation failure occurred, or invalid args.
  */
-int* MinimaxSuggestMove(ChessGame* currentGame, int maxDepth){
+int* MinimaxSuggestMove(ChessGame* currentGame, int maxDepth);
+
+#endif

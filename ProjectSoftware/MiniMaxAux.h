@@ -1,3 +1,5 @@
+#ifndef MINIMAXAUX_H_
+#define MINIMAXAUX_H_
 #define MINIMAXAUX_MOVE_LENGTH 2
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
@@ -20,7 +22,7 @@
  * The function returns the value of the (max/min) "imaginary" node defined by currentGame and max and depth, or if pruning 
  * occured the current valuewhich made us realize that we cannot improve on bestYet.
  */
-int MiniMaxAuxNodeVal(ChessGame* currentGame, int depth, int max, int bestYet){
+int MiniMaxAuxNodeVal(ChessGame* currentGame, int depth, int max, int bestYet);
 
 
 /**
@@ -55,4 +57,6 @@ int MiniMaxAuxScorePieces(ChessPiece** lst);
  * @return
  * The function returns >0 if first is larger, <0 if second is larger, and 0 if they are identicle. 
  */
-int MiniMaxAuxOrderMoves(int* move1, int* move2){
+int MiniMaxAuxOrderMoves(int* move1, int* move2);
+
+#endif
