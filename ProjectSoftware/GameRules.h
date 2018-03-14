@@ -1,5 +1,5 @@
 /*
- * GameAux.h
+ * GameRules.h
  *
  *  This module contains aux functions for the main game module
  *  Most functions pertaining to chess appear here (as opposed to general game functions)

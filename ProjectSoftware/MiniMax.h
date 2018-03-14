@@ -1,6 +1,7 @@
 #ifndef MINIMAX_H_
 #define MINIMAX_H_
 #include "MiniMaxAux.h"
+#include "ChessGame.h"
 
 
 /**

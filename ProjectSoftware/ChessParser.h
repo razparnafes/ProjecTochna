@@ -5,8 +5,8 @@
  *      Author: Raz Parnafes
  */
 
-#ifndef PARSER_H_
-#define PARSER_H_
+#ifndef CHESSPARSER_H_
+#define CHESSPARSER_H_
 
 #define GAME_MAX_LINE_LENGTH 2048
 

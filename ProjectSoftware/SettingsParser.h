@@ -1,5 +1,5 @@
-#ifndef SETTINGPARSER_H_
-#define SETTINGPARSER_H_
+#ifndef SETTINGsPARSER_H_
+#define SETTINGsPARSER_H_
 #include <stdbool.h>
 
 //specify the maximum line length

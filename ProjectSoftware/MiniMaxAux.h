@@ -1,5 +1,8 @@
 #ifndef MINIMAXAUX_H_
 #define MINIMAXAUX_H_
+
+#include "ChessGame.h"
+
 #define MINIMAXAUX_MOVE_LENGTH 2
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
